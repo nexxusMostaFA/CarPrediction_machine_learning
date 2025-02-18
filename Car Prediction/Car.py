@@ -1,78 +1,74 @@
-import zipfile
-import pickle
 import streamlit as st
+import pandas as pd
+import pickle
 
  
-with zipfile.ZipFile("Cars_prediction_model.zip", 'r') as zip_ref:
-    zip_ref.extractall(".")
+data = pickle.load(open(r"C:\Users\mostafa\Desktop\Cars_prediction_model.sav" ,  'rb'))
 
  
-with open("Cars_prediction_model.sav", 'rb') as file:
-    data = pickle.load(file)
-
 st.title('Car Price Prediction')
 st.sidebar.header('RESULTS')
 st.image("https://www.carandbike.com/_next/image?url=https%3A%2F%2Fmedia.mahindrafirstchoice.com%2Flive_web_images%2Fusedcarsimg%2Fmfc%2F1551%2F622756%2Fcover_image-20241205161329.jpg&w=1920&q=75")
 st.info('Application For Predicting Car Price')
 st.sidebar.info('Application For Predicting Car Price')
 
-# Manufacturer Mapping
+ 
 m1 = ['LEXUS', 'CHEVROLET', 'HONDA', 'FORD', 'HYUNDAI', 'TOYOTA', 'MERCEDES-BENZ', 'OPEL', 'PORSCHE', 'BMW', 'JEEP', 'VOLKSWAGEN', 'AUDI', 'RENAULT', 'NISSAN', 'SUBARU', 'DAEWOO', 'KIA', 'MITSUBISHI', 'SSANGYONG', 'MAZDA', 'GMC', 'FIAT', 'INFINITI', 'ALFA ROMEO', 'SUZUKI', 'ACURA', 'LINCOLN', 'VAZ', 'GAZ', 'CITROEN', 'LAND ROVER', 'MINI', 'DODGE', 'CHRYSLER', 'JAGUAR', 'ISUZU', 'SKODA', 'DAIHATSU', 'BUICK', 'TESLA', 'CADILLAC', 'PEUGEOT', 'BENTLEY', 'VOLVO', 'სხვა', 'HAVAL', 'HUMMER', 'SCION', 'UAZ', 'MERCURY', 'ZAZ', 'ROVER', 'SEAT', 'LANCIA', 'MOSKVICH', 'MASERATI', 'FERRARI', 'SAAB', 'LAMBORGHINI', 'ROLLS-ROYCE', 'PONTIAC', 'SATURN', 'ASTON MARTIN', 'GREATWALL']
 m2 = [21, 16, 23, 58, 36, 61, 46, 41, 8, 55, 11, 5, 28, 39, 54, 35, 18, 15, 56, 32, 42, 3, 10, 38, 13, 27, 0, 60, 26, 53, 9, 33, 6, 43, 64, 20, 31, 7, 51, 24, 45, 30, 37, 49, 62, 1, 50, 17, 25, 12, 57, 4, 22, 59, 63, 48, 52, 40, 34, 14, 29, 47, 44, 2, 19]
 Manufacturer_mapping = dict(zip(m1, m2))
 Manufacturer1 = st.selectbox('Manufacturer', m1)
 Manufacturer = Manufacturer_mapping[Manufacturer1]
 
-# Model Mapping
+ 
 mm1 = ['RX 450', 'Equinox', 'FIT', 'E 230 124', 'RX 450 F SPORT', 'Prius C aqua']
 mm2 = [684, 661, 1305, 582, 1243, 1169]
 Model_mapping = dict(zip(mm1, mm2))
 Model1 = st.selectbox('Model', mm1)
 Model = Model_mapping[Model1]
 
-# Category Mapping
+ 
 c1 = ['Jeep', 'Hatchback', 'Sedan', 'Microbus', 'Goods wagon', 'Universal', 'Coupe', 'Minivan', 'Cabriolet', 'Limousine', 'Pickup']
 c2 = [3, 4, 9, 10, 7, 0, 1, 6, 2, 8, 5]
 Category_Mapping = dict(zip(c1, c2))
 Category1 = st.selectbox('Category', c1)
 Category = Category_Mapping[Category1]
 
-# Leather Interior Mapping
+# Leather Interior  
 l1 = ['yes', 'no']
 l2 = [0, 1]
 leather_mapping = dict(zip(l1, l2))
 Leather1 = st.selectbox('Leather interior', l1)
 Leather = leather_mapping[Leather1]
 
-# Fuel Type Mapping
+# Fuel Type  
 f1 = ['Hybrid', 'Petrol', 'Diesel', 'CNG', 'Plug-in Hybrid', 'LPG', 'Hydrogen']
 f2 = [5, 2, 1, 6, 4, 0, 3]
 Fuel_Mapping = dict(zip(f1, f2))
 Fuel1 = st.selectbox('Fuel type', f1)
 Fuel = Fuel_Mapping[Fuel1]
 
-# Gear Box Type Mapping
+# Gear Box Type  
 g1 = ['Automatic', 'Tiptronic', 'Variator', 'Manual']
 g2 = [3, 0, 2, 1]
 Gear_mapping = dict(zip(g1, g2))
 Gear1 = st.selectbox('Gear box type', g1)
 Gear = Gear_mapping[Gear1]
 
-# Drive Wheels Mapping
+# Drive Wheels  
 d1 = ['4x4', 'Front', 'Rear']
 d2 = [1, 0, 2]
 Drive_mapping = dict(zip(d1, d2))
 Drive1 = st.selectbox('Drive wheels', d1)
 Drive = Drive_mapping[Drive1]
 
-# Wheel Mapping
+# Wheel  
 w1 = ['Left wheel', 'Right-hand drive']
 w2 = [1, 0]
 Wheel_mapping = dict(zip(w1, w2))
 Wheel1 = st.selectbox('Wheel', w1)
 Wheel = Wheel_mapping[Wheel1]
 
-# Color Mapping
+# Color  
 cc1 = ['Silver', 'Black', 'White', 'Grey', 'Blue', 'Green', 'Red', 'Sky blue', 'Orange', 'Yellow', 'Brown', 'Golden', 'Beige', 'Carnelian red', 'Purple', 'Pink']
 cc2 = [1, 14, 12, 7, 2, 13, 11, 6, 15, 3, 5, 0, 8, 4, 10, 9]
 color_mapping = dict(zip(cc1, cc2))
@@ -100,7 +96,7 @@ df = pd.DataFrame({
     'Levy': Levy,
     'Engine volume': Engine,
     'Mileage': Mileage,
-    'Cylinders': 4,  
+    'Cylinders': 4,   
     'Airbags': Airbags,
     'carAge': carAge,
     'Manufacturer': Manufacturer,
@@ -120,6 +116,6 @@ print("Columns in df:", df.columns)
 # Predict Button
 p = st.sidebar.button('Predict Price')
 if p:
-    Pre = data.predict(df.drop(columns=['Price']))  
+    Pre = data.predict(df.drop(columns=['Price']))   
     st.sidebar.write('Price is:', Pre)
     st.table(df)
