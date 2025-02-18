@@ -6,8 +6,7 @@ import math
 import random
 
  
-data = pickle.load(open(r"C:\Users\mostafa\Desktop\Cars_prediction_model.sav" ,  'rb'))
-
+data = pickle.load(open("Cars_prediction_model.sav", 'rb'))
  
 st.title('Car Price Prediction')
 st.sidebar.header('RESULTS')
