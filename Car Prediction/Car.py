@@ -1,11 +1,15 @@
-import streamlit as st
-import pandas as pd
+import zipfile
 import pickle
+import streamlit as st
 
-# Load the model
-data = pickle.load(open(r"C:\Users\mostafa\Desktop\Cars_prediction_model.sav", 'rb'))
+ 
+with zipfile.ZipFile("Cars_prediction_model.zip", 'r') as zip_ref:
+    zip_ref.extractall(".")
 
-# Streamlit Page
+ 
+with open("Cars_prediction_model.sav", 'rb') as file:
+    data = pickle.load(file)
+
 st.title('Car Price Prediction')
 st.sidebar.header('RESULTS')
 st.image("https://www.carandbike.com/_next/image?url=https%3A%2F%2Fmedia.mahindrafirstchoice.com%2Flive_web_images%2Fusedcarsimg%2Fmfc%2F1551%2F622756%2Fcover_image-20241205161329.jpg&w=1920&q=75")
@@ -90,13 +94,13 @@ Mileage = st.number_input('Mileage')
 # Levy
 Levy = st.number_input('Levy')
 
- # Create DataFrame with correct column names
+ 
 df = pd.DataFrame({
-    'Price': 0,  # Placeholder, as Price is the target variable
+    'Price': 0,   
     'Levy': Levy,
     'Engine volume': Engine,
     'Mileage': Mileage,
-    'Cylinders': 4,  # Corrected column name
+    'Cylinders': 4,  
     'Airbags': Airbags,
     'carAge': carAge,
     'Manufacturer': Manufacturer,
@@ -110,12 +114,12 @@ df = pd.DataFrame({
     'Color': Color
 }, index=[0])
 
-# Debugging: Print column names to verify
+ 
 print("Columns in df:", df.columns)
 
 # Predict Button
 p = st.sidebar.button('Predict Price')
 if p:
-    Pre = data.predict(df.drop(columns=['Price']))  # Drop the placeholder Price column
+    Pre = data.predict(df.drop(columns=['Price']))  
     st.sidebar.write('Price is:', Pre)
     st.table(df)
